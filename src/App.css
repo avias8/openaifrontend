@@ -1,150 +1,60 @@
+/* General styling */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f0f2f5;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* App container styling */
 .App {
   text-align: center;
+  padding: 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-
-
-/* Container for the entire test UI */
+/* OpenAITest container styling */
 .openai-test-container {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
   max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.4); /* Dark background */
-  backdrop-filter: blur(12px); /* Stronger blur for frosted glass effect */
-  border-radius: 12px; /* Softer corners */
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); /* Stronger shadow */
-  text-align: center;
-  color: #fff; /* White text for better contrast */
+  padding: 20px; /* Added padding */
 }
 
 /* Title styling */
 .title {
   font-size: 2rem;
-  color: #f0f0f0;
+  color: #333;
   margin-bottom: 20px;
-}
-
-/* Chat log styling */
-.chat-log {
-  max-height: 300px;
-  overflow-y: auto;
-  margin-bottom: 20px;
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.1); /* Light transparency */
-  border-radius: 8px;
-  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2); /* Darker shadow */
-}
-
-.chat-log::-webkit-scrollbar {
-  width: 8px;
-}
-
-.chat-log::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-}
-
-.chat-log::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(255, 255, 255, 0.4);
-}
-
-/* Each chat message container */
-.chat-message-container {
-  margin-bottom: 10px;
-}
-
-/* Chat message styling */
-.chat-message {
-  padding: 12px 18px;
-  border-radius: 15px;
-  max-width: 70%;
-  word-wrap: break-word;
-  background-color: rgba(255, 255, 255, 0.3); /* Lighter transparency */
-  backdrop-filter: blur(10px); /* Stronger glass effect */
-  color: #333; /* Darker text for contrast */
-  text-align: left;
-  margin: 0 auto;
-  margin-bottom: 15px; /* Space between chat bubbles */
-}
-
-.chat-message.user {
-  background-color: rgba(0, 123, 255, 0.7); /* User message: lighter blue */
-  color: white;
-  align-self: flex-end;
-}
-
-.chat-message.openai {
-  background-color: rgba(100, 100, 100, 0.5); /* OpenAI message: lighter grey */
-  color: white; /* White text for contrast */
-  align-self: flex-start;
-}
-
-/* Container for the text input and button */
-.input-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  gap: 10px; /* Space between the textarea and button */
 }
 
 /* Textarea styling */
 .openai-textarea {
-  flex-grow: 1;
-  height: 80px;
+  width: calc(100% - 40px); /* Adjusted width to account for padding */
+  height: 150px;
   padding: 10px;
-  font-size: 1rem;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Lighter border */
-  background-color: rgba(255, 255, 255, 0.1); /* Light transparency */
-  color: white; /* White text for visibility */
   resize: none;
   transition: box-shadow 0.3s ease;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3); /* Darker inset shadow */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 auto; /* Centered the textarea */
 }
 
 .openai-textarea::placeholder {
-  color: rgba(255, 255, 255, 0.6); /* Lighter placeholder text */
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .openai-textarea:focus {
   outline: none;
-  box-shadow: 0 0 8px rgba(0, 123, 255, 0.6); /* Bright blue glow on focus */
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
   border-color: #007bff;
 }
 
@@ -158,29 +68,14 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Slightly stronger shadow */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .generate-btn:hover {
   background-color: #0056b3;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .openai-test-container {
-      padding: 15px;
-  }
-
-  .title {
-      font-size: 1.5rem;
-  }
-
-  .generate-btn {
-      font-size: 1rem;
-  }
-}
-
-/* Status orb for API status */
+/* Status orb styling */
 .status-orb {
   position: fixed;
   top: 1rem;
@@ -189,26 +84,61 @@
   height: 25px;
   border-radius: 50%;
   background-color: #ccc;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+  transition: all 0.3s ease;
 }
 
 .status-orb.online {
-  background-color: #4caf50; /* Green for online */
-  box-shadow: 0 0 20px #4caf50; /* Green glow */
+  background-color: #4caf50;
+  box-shadow: 0 0 20px #4caf50;
 }
 
 .status-orb.offline {
-  background-color: #f44336; /* Red for offline */
-  box-shadow: 0 0 20px #f44336; /* Red glow */
+  background-color: #f44336;
+  box-shadow: 0 0 20px #f44336;
 }
 
 .status-orb.checking {
-  background-color: #ffeb3b; /* Yellow for checking */
-  box-shadow: 0 0 20px #ffeb3b; /* Yellow glow */
+  background-color: #ffeb3b;
+  box-shadow: 0 0 20px #ffeb3b;
 }
 
 .status-orb:hover {
   transform: scale(1.1);
-  transition: transform 0.2s;
+}
+
+/* Error message styling */
+.error-message {
+  background-color: rgba(220, 53, 69, 0.7);
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .openai-test-container {
+    padding: 15px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .generate-btn {
+    font-size: 1rem;
+  }
+
+  .chat-message {
+    max-width: 85%;
+  }
 }
