@@ -1,0 +1,15 @@
+{
+  "name": "openaifrontend",
+  "version": "1.0.0",
+  "description": "A Front End to Query my custom LLM Inference server hosted via express.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gh-pages": "^6.2.0"
+  }
+}
