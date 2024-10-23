@@ -78,12 +78,22 @@ const App = () => {
   useEffect(() => {
     // Define initial messages
     const initialMessages = [
-      { id: 1, sender: 'system', text: 'Welcome to the chat!', timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) },
-      { id: 2, sender: 'system', text: 'How can I assist you today?', timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+      {
+        id: 1,
+        sender: 'system',
+        text: `Hey, I'm **Avi Varma**, welcome to my **Inference API!**`,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      },
+      {
+        id: 2,
+        sender: 'system',
+        text: `This solution is a front end connecting to my hosted Google Cloud Express server, which serves the responses for our requests. The front end is created using **React**, **styled-components**, and **Node.js**.`,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      }
     ];
     setChatLog(initialMessages);
   }, []);
-  
+
   useEffect(() => {
     // Scroll to the bottom when chatLog or isLoading changes
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
