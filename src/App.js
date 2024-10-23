@@ -1,109 +1,154 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
+// src/App.jsx
 
+import React, { useState, useEffect, useRef, Suspense, lazy, useCallback } from 'react';
+import styled, { ThemeProvider } from 'styled-components';
+import { darkTheme, lightTheme } from './themes';
+import Header from './components/Header';
+import GlobalStyle from './GlobalStyle'; // Ensure GlobalStyle is imported
+
+// Lazy load ChatLog and InputArea components
+const ChatLog = lazy(() => import('./components/ChatLog'));
+const InputArea = lazy(() => import('./components/InputArea'));
+
+// Styled Components
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 20px; /* Reduced padding */
+  background: ${({ theme }) => theme.background};
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  max-width: 800px;
+  margin: 40px auto;
+  color: ${({ theme }) => theme.textColor};
+  position: relative;
+
+  transition: background 0.3s, color 0.3s;
+
+  @media (max-width: 600px) {
+    padding: 15px; /* Adjusted for smaller screens */
+    margin: 20px auto;
+    max-width: 95%;
+  }
+`;
+
+// Optional: Styled fallback for Suspense
+const Loading = styled.div`
+  text-align: center;
+  padding: 20px;
+  color: ${({ theme }) => theme.textColor};
+`;
+
+// Main App Component
 const App = () => {
   const [prompt, setPrompt] = useState('');
   const [chatLog, setChatLog] = useState([]);
   const [apiStatus, setApiStatus] = useState('checking');
-  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [theme, setTheme] = useState('dark'); // 'light' or 'dark'
 
-  const checkApiStatus = async () => {
+  const chatEndRef = useRef(null); // For auto-scrolling
+
+  // Define checkApiStatus before using it in useEffect
+  const checkApiStatus = useCallback(async () => {
     try {
       const response = await fetch('https://chatgpt-express-server-186364516466.us-central1.run.app/status');
-      setApiStatus(response.ok ? 'online' : 'offline');
+      if (response.ok) {
+        setApiStatus('online');
+      } else {
+        setApiStatus('offline');
+      }
     } catch (error) {
       setApiStatus('offline');
     }
-  };
+  }, []);
+
+  // Persist theme preference
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme && (savedTheme === 'dark' || savedTheme === 'light')) {
+      setTheme(savedTheme);
+    }
+  }, []);
 
   useEffect(() => {
     checkApiStatus();
-    const intervalId = setInterval(checkApiStatus, 60000); // Check every minute
-    return () => clearInterval(intervalId);
-  }, []);
+  }, [checkApiStatus]); // Include checkApiStatus in dependencies
 
-  const handleGenerateText = async () => {
+  useEffect(() => {
+    // Scroll to the bottom when chatLog or isLoading changes
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chatLog, isLoading]);
+
+  const handleGenerateText = useCallback(async () => {
     if (!prompt.trim()) {
-      setError('Please enter a message');
+      alert('Please enter a prompt');
       return;
     }
 
-    setError(null);
-    setChatLog(prev => [...prev, { sender: 'user', text: prompt }]);
-    const currentPrompt = prompt;
-    setPrompt('');
+    const userMessage = {
+      sender: 'user',
+      text: prompt,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+
+    setChatLog((prev) => [...prev, userMessage]);
+    setIsLoading(true); // Start loading
 
     try {
       const response = await fetch('https://chatgpt-express-server-186364516466.us-central1.run.app/openai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: currentPrompt }),
+        body: JSON.stringify({ prompt }),
       });
 
-      if (!response.ok) throw new Error('Failed to generate response');
-
       const data = await response.json();
-      setChatLog(prev => [...prev, { sender: 'openai', text: data.generatedText }]);
+      const openaiMessage = {
+        sender: 'openai',
+        text: data.generatedText,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
+      setChatLog((prev) => [...prev, openaiMessage]);
     } catch (error) {
       console.error('Error generating text:', error);
-      setChatLog(prev => [...prev, { sender: 'error', text: 'Error generating text' }]);
+      const errorMessage = {
+        sender: 'error',
+        text: 'Error generating text. Please try again.',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
+      setChatLog((prev) => [...prev, errorMessage]);
     }
-  };
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleGenerateText();
-    }
-  };
+    setPrompt('');
+    setIsLoading(false); // End loading
+  }, [prompt]);
+
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => {
+      const newTheme = prev === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', newTheme); // Persist theme preference
+      return newTheme;
+    });
+  }, []);
 
   return (
-    <div className="openai-test-container">
-      <h2 className="title">Chat with OpenAI</h2>
+    <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
+      <GlobalStyle /> {/* Apply global styles */}
+      <Container>
+        <Header apiStatus={apiStatus} toggleTheme={toggleTheme} currentTheme={theme} />
 
-      {/* API Status Orb */}
-      <a
-        href="https://console.cloud.google.com/run/detail/us-central1/chatgpt-express-server/metrics?project=chatgpt-express-server-project"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`status-orb ${apiStatus}`}
-        title="API Status"
-      ></a>
+        {/* Wrap lazy-loaded components with Suspense */}
+        <Suspense fallback={<Loading>Loading chat...</Loading>}>
+          <ChatLog chatLog={chatLog} theme={theme} />
+        </Suspense>
 
-      <div className="chat-log">
-        {chatLog.map((message, index) => (
-          <div key={index} className="chat-message-container">
-            <div className={`chat-message ${message.sender}`}>
-              <p>{message.text}</p>
-            </div>
-          </div>
-        ))}
-      </div>
+        <Suspense fallback={<Loading>Loading input...</Loading>}>
+          <InputArea prompt={prompt} setPrompt={setPrompt} handleGenerateText={handleGenerateText} />
+        </Suspense>
 
-      {error && (
-        <div className="error-message">
-          {error}
-        </div>
-      )}
-
-      <div className="input-container">
-        <textarea
-          className="openai-textarea"
-          placeholder="Enter a message..."
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          onKeyDown={handleKeyPress}
-        />
-      </div>
-
-      <button 
-        className="generate-btn" 
-        onClick={handleGenerateText}
-        disabled={!prompt.trim()}
-      >
-        Send
-      </button>
-    </div>
+        <div ref={chatEndRef} /> {/* For auto-scrolling */}
+      </Container>
+    </ThemeProvider>
   );
 };
 
