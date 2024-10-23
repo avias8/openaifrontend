@@ -102,13 +102,16 @@ This is a **React-based front end** for interacting with a **Google Cloud-hosted
 - **Syntax Highlighting**: Code snippets are highlighted using \`react-syntax-highlighter\`.
 - **Clipboard Support for Code Blocks**: I use \`react-copy-to-clipboard\` to add a convenient "copy to clipboard" button, allowing users to easily copy code snippets.
 
+| Key Tooling            | Awesome? |
+| ---------------------- | ------ | 
+| React                  | ✅ |
+| Express.js             | ✅ |
+| Google Cloud           | ✅ |
+| react-copy-to-clipboard| ✅ |
+
 #### Markdown Rendering:
 - **ReactMarkdown**: Displays markdown responses, including formatted text, links, and code blocks.
 - [x] **GitHub-flavored markdown (GFM)**: Enabled via the \`remark-gfm\` plugin, supporting features like checkboxes, tables, and strikethroughs.
-
-### Sample Code
-
-Here’s a basic example of a function in JavaScript:
 
 \`\`\`javascript
 function greet(name) {
@@ -117,15 +120,6 @@ function greet(name) {
 
 console.log(greet('Avi')); // Output: Hello, Avi!
 \`\`\`
-
-This code defines a simple function \`greet\` that takes a name as input and returns a greeting message.
-
-| Feature                | Status |
-| ---------------------- | ------ |
-| React                  | ✅     |
-| Express.js             | ✅     |
-| Google Cloud           | ✅     |
-| react-copy-to-clipboard| ✅     |
 
 `,
         timestamp: currentTimestamp
