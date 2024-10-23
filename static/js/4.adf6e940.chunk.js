@@ -57,5 +57,5 @@
     padding: 12px 20px;
     font-size: 0.9rem;
   }
-`,p=e=>{let{prompt:r,setPrompt:t,handleGenerateText:o}=e;return(0,a.jsxs)(s,{children:[(0,a.jsx)(d,{placeholder:"Type your message...",value:r,onChange:e=>t(e.target.value),rows:2}),(0,a.jsx)(l,{onClick:o,children:"Send"})]})},u=o.memo(p)}}]);
-//# sourceMappingURL=4.2ace0ab6.chunk.js.map
+`,p=e=>{let{prompt:r,setPrompt:t,handleGenerateText:o}=e;return(0,a.jsxs)(s,{children:[(0,a.jsx)(d,{placeholder:"Type your message...",value:r,onChange:e=>t(e.target.value),onKeyPress:e=>{"Enter"!==e.key||e.shiftKey||(e.preventDefault(),o(),t(""))},rows:2}),(0,a.jsx)(l,{onClick:()=>{o(),t("")},children:"Send"})]})},u=o.memo(p)}}]);
+//# sourceMappingURL=4.adf6e940.chunk.js.map
