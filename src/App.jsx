@@ -18,7 +18,7 @@ const Container = styled.div`
   background: ${({ theme }) => theme.background};
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 40px auto;
   color: ${({ theme }) => theme.textColor};
   position: relative;
