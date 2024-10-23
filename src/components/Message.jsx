@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import { FaUserCircle, FaRobot, FaCog } from 'react-icons/fa'; // Import FaCog for system messages
+import { FaUserCircle, FaRobot } from 'react-icons/fa'; // Import FaCog for system messages
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -44,8 +44,8 @@ const Avatar = styled.div`
   align-items: center;
 
   img {
-    width: 24px;
-    height: 24px;
+    width: ${({ $sender }) => ($sender === 'system' ? '48px' : '24px')};
+    height: ${({ $sender }) => ($sender === 'system' ? '48px' : '24px')};
     border-radius: 50%;
   }
 `;
@@ -58,6 +58,8 @@ const MessageBubble = styled.div`
       ? theme.messageUser
       : $sender === 'openai'
       ? theme.messageOpenAI
+      : $sender === 'system'
+      ? 'darkgreen' // Set system message bubble to green
       : theme.messageError};
   color: ${({ theme }) => theme.textColor}; /* Dynamic text color */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
@@ -65,6 +67,7 @@ const MessageBubble = styled.div`
   transition: background 0.3s, color 0.3s;
   word-wrap: break-word;
   flex: 1;
+  font-size: ${({ $sender }) => ($sender === 'system' ? '0.8em' : '1em')}; /* Smaller text for system messages */
 
   /* Optional: Style Markdown elements */
   h1, h2, h3, h4, h5, h6 {
@@ -91,15 +94,6 @@ const MessageBubble = styled.div`
     font-size: 85%;
     border-radius: 3px;
     font-family: 'Source Code Pro', monospace; /* Use a monospace font for code */
-    color: inherit; /* Inherit color to prevent overriding text color */
-  }
-
-  pre {
-    background-color: ${({ theme }) => theme.inputBackground};
-    padding: 10px;
-    border-radius: 5px;
-    overflow: auto;
-    font-family: 'Source Code Pro', monospace; /* Monospace font for code blocks */
     color: inherit; /* Inherit color to prevent overriding text color */
   }
 `;
@@ -131,7 +125,7 @@ const Message = ({ message }) => {
           <FaUserCircle size={24} />
         )}
         {sender === 'system' && (
-          <FaCog size={24} /> // System messages use FaCog icon
+          <img src = "https://avivarma.ca/images/avivarma.jpeg" alt = "Avi"/> // System messages use FaCog icon
         )}
         {sender === 'error' && (
           <FaRobot size={24} color="#dc3545" />

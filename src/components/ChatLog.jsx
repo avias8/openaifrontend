@@ -35,11 +35,12 @@ const ChatLogContainer = styled.div`
   }
 `;
 
-const ChatLog = ({ chatLog, theme }) => (
+const ChatLog = ({ chatLog, theme, chatEndRef }) => ( // Accept chatEndRef as a prop
   <ChatLogContainer>
     {chatLog.map((message, index) => (
       <Message key={index} message={message} theme={theme} />
     ))}
+    <div ref={chatEndRef} /> {/* For auto-scrolling */}
   </ChatLogContainer>
 );
 
