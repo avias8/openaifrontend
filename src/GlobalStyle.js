@@ -11,6 +11,14 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: ${({ theme }) => theme.textColor};
     transition: background-color 0.3s, color 0.3s;
+    height: 100vh; /* Ensure body takes full viewport height */
+    overflow: hidden; /* Prevent body overflow */
+  }
+
+  #root {
+    height: 100%; /* Ensure root takes full height */
+    display: flex;
+    flex-direction: column;
   }
 
   /* Optional: Customize scrollbar for better aesthetics */
@@ -19,13 +27,13 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ::-webkit-scrollbar-track {
-    background: ${({ theme }) => theme.inputBackground};
+    background: ${({ theme }) => theme.scrollbarTrack};
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: ${({ theme }) => theme.messageUser};
+    background-color: ${({ theme }) => theme.scrollbarThumb};
     border-radius: 4px;
-    border: 2px solid ${({ theme }) => theme.inputBackground};
+    border: 2px solid ${({ theme }) => theme.scrollbarTrack};
   }
 `;
 

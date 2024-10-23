@@ -22,6 +22,8 @@ const Container = styled.div`
   margin: 40px auto;
   color: ${({ theme }) => theme.textColor};
   position: relative;
+  height: 100vh; /* Set height to 100% of the viewport height */
+  overflow: hidden; /* Prevent overflow outside the container */
 
   transition: background 0.3s, color 0.3s;
 
@@ -81,13 +83,38 @@ const App = () => {
       {
         id: 1,
         sender: 'system',
-        text: `Hey, I'm **Avi Varma**, welcome to my **Inference API!**`,
+        text: `Hey, I'm **Avi Varma**, welcome to my **Inference API!** This solution is a front end connecting to my hosted Google Cloud Express server, which serves the responses for our requests. The front end is created using **React**, **styled-components**, and **Node.js**.`,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       },
       {
         id: 2,
         sender: 'system',
-        text: `This solution is a front end connecting to my hosted Google Cloud Express server, which serves the responses for our requests. The front end is created using **React**, **styled-components**, and **Node.js**.`,
+        text: `
+  ## Technical Implementation
+  
+  - **Frontend**:
+    - Built with **React** for a dynamic and responsive user interface.
+    - Uses **styled-components** for modular and scoped CSS.
+    - Handles markdown text using **ReactMarkdown** and **remark-gfm** for GitHub-flavored markdown.
+    - Syntax highlighting for code blocks is done using **react-syntax-highlighter**.
+  
+  - **Backend**:
+    - Hosted on **Google Cloud** using **Google Cloud Run**.
+    - The server is built with **Express.js** and handles API requests.
+    - Connects to OpenAI's API to generate responses based on user input.
+    - The API backend passes back text that's formatted as markdown, but as plain text. This needs to be processed in order to display a user-friendly interface.
+  
+  - **Code Handling**:
+    - Code blocks in markdown are rendered with syntax highlighting using **react-syntax-highlighter**.
+    - Supports multiple programming languages for code snippets.
+    - The language for syntax highlighting is determined by the class name of the code block (e.g., \`javascript\`).
+  
+  - **Markdown Text**:
+    - Supports GitHub-flavored markdown for rich text formatting using **remark-gfm**.
+    - Allows for easy inclusion of links, lists, and other markdown features.
+    - Markdown is rendered using **ReactMarkdown**, which converts markdown text to React components.
+    - The frontend processes the markdown text received from the API and renders it appropriately.
+        `,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }
     ];

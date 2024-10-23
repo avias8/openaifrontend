@@ -76,16 +76,32 @@ const SendButton = styled.button.attrs({
   }
 `;
 
-const InputArea = ({ prompt, setPrompt, handleGenerateText }) => (
-  <InputContainer>
-    <TextArea
-      placeholder="Type your message..."
-      value={prompt}
-      onChange={(e) => setPrompt(e.target.value)}
-      rows={2}
-    />
-    <SendButton onClick={handleGenerateText}>Send</SendButton>
-  </InputContainer>
-);
+const InputArea = ({ prompt, setPrompt, handleGenerateText }) => {
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleGenerateText();
+      setPrompt(''); // Clear the text box
+    }
+  };
+
+  const handleClick = () => {
+    handleGenerateText();
+    setPrompt(''); // Clear the text box
+  };
+
+  return (
+    <InputContainer>
+      <TextArea
+        placeholder="Type your message..."
+        value={prompt}
+        onChange={(e) => setPrompt(e.target.value)}
+        onKeyPress={handleKeyPress} // Handle Enter key press
+        rows={2}
+      />
+      <SendButton onClick={handleClick}>Send</SendButton>
+    </InputContainer>
+  );
+};
 
 export default React.memo(InputArea);
