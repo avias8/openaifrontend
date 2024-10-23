@@ -51,7 +51,7 @@ const Avatar = styled.div`
 `;
 
 const MessageBubble = styled.div`
-  padding: 12px 20px;
+  padding: 10px 15px; /* Reduced padding for the message bubble */
   border-radius: 20px;
   background: ${({ $sender, theme }) =>
     $sender === 'user'
@@ -59,7 +59,7 @@ const MessageBubble = styled.div`
       : $sender === 'openai'
       ? theme.messageOpenAI
       : $sender === 'system'
-      ? 'darkgreen' // Set system message bubble to green
+      ? 'green' // Set system message bubble to green
       : theme.messageError};
   color: ${({ theme }) => theme.textColor}; /* Dynamic text color */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
@@ -68,19 +68,20 @@ const MessageBubble = styled.div`
   word-wrap: break-word;
   flex: 1;
   font-size: ${({ $sender }) => ($sender === 'system' ? '0.8em' : '1em')}; /* Smaller text for system messages */
+  white-space: pre-wrap; /* Preserve whitespace and line breaks */
 
-  /* Optional: Style Markdown elements */
+  /* Adjust the margins and paddings for markdown elements */
   h1, h2, h3, h4, h5, h6 {
-    margin: 0;
+    margin: 5px 0; /* Reduced margin for headers */
   }
 
   p {
-    margin: 0;
+    margin: 5px 0; /* Reduced margin for paragraphs */
   }
 
   ul, ol {
-    padding-left: 20px;
-    margin: 5px 0;
+    padding-left: 15px; /* Slightly reduced padding for lists */
+    margin: 5px 0; /* Reduced margin for list items */
   }
 
   strong {
@@ -97,6 +98,7 @@ const MessageBubble = styled.div`
     color: inherit; /* Inherit color to prevent overriding text color */
   }
 `;
+
 
 const Timestamp = styled.span`
   display: block;

@@ -71,55 +71,58 @@ const App = () => {
     if (savedTheme && (savedTheme === 'dark' || savedTheme === 'light')) {
       setTheme(savedTheme);
     }
-  }, []);
-
-  useEffect(() => {
     checkApiStatus();
-  }, [checkApiStatus]); // Include checkApiStatus in dependencies
+
+  }, [checkApiStatus]);
 
   useEffect(() => {
-    // Define initial messages
+    const currentTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const initialMessages = [
       {
         id: 1,
         sender: 'system',
-        text: `Hey, I'm **Avi Varma**, welcome to my **Inference API!** This solution is a front end connecting to my hosted Google Cloud Express server, which serves the responses for our requests. The front end is created using **React**, **styled-components**, and **Node.js**.`,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        text: `
+  # Welcome to Avi Varma's Inference API!
+  
+  This is a **React-based front end** for interacting with a **Google Cloud-hosted API**. The API provides inference capabilities using **machine learning** models and generates responses for requests you send. Here's a technical overview of how this system works.
+  
+  ---
+  
+  ## Technical Breakdown
+  
+  ### Frontend:
+  - [x] **React**: This dynamic, component-based UI was built using **React**, ensuring a seamless user experience.
+  - [x] **Styled-components**: For styling, we use **styled-components**, which provides scoped CSS for each component. This ensures a modular design and prevents global CSS conflicts.
+  - [x] **Markdown Handling**: We use **ReactMarkdown** for parsing markdown input, allowing us to support rich text formatting like headings, lists, and links.
+  - [x] **Syntax Highlighting**: For code snippets, we're using **react-syntax-highlighter**. This library supports highlighting for multiple programming languages, ensuring any code blocks displayed are easy to read.
+  
+  ### Backend:
+  - [x] **Google Cloud Run**: The backend server is deployed on **Google Cloud Run**, a fully managed serverless platform. This allows the service to automatically scale based on traffic, while keeping costs low during inactive periods.
+  - [x] **Express.js**: The server logic is written in **Express.js**, handling API requests and communicating with external services like the **OpenAI API**.
+  - [x] **Inference API**: The API is responsible for performing inference on input data, such as user inputs or images, and returning predictions. The responses are formatted as markdown, giving flexibility to include text, code blocks, or lists.
+
+  ---
+  
+  ### Markdown Rendering:
+  - [x] Markdown responses from the backend are processed using **ReactMarkdown**. This ensures any formatting, links, or code blocks are displayed properly on the front end.
+  - [x] GitHub-flavored markdown (GFM) is enabled using the **remark-gfm** plugin, allowing features like checkboxes, tables, and strikethroughs.
+  
+  ---
+  
+  I hope this gives you a solid understanding of the system. Feel free to explore the API and ask any questions you may have!`,
+        timestamp: currentTimestamp
       },
       {
         id: 2,
-        sender: 'system',
-        text: `
-## Technical Implementation
-
-- **Frontend**:
-  - Built with **React** for a dynamic and responsive user interface.
-  - Uses **styled-components** for modular and scoped CSS.
-  - Handles markdown text using **ReactMarkdown** and **remark-gfm** for GitHub-flavored markdown.
-  - Syntax highlighting for code blocks is done using **react-syntax-highlighter**.
-
-- **Backend**:
-  - Hosted on **Google Cloud** using **Google Cloud Run**.
-  - The server is built with **Express.js** and handles API requests.
-  - Connects to OpenAI's API to generate responses based on user input.
-  - The API backend passes back text that's formatted as markdown, but as plain text. This needs to be processed in order to display a user-friendly interface.
-
-- **Code Handling**:
-  - Code blocks in markdown are rendered with syntax highlighting using **react-syntax-highlighter**.
-  - Supports multiple programming languages for code snippets.
-  - The language for syntax highlighting is determined by the class name of the code block (e.g., \`javascript\`).
-
-- **Markdown Text**:
-  - Supports GitHub-flavored markdown for rich text formatting using **remark-gfm**.
-  - Allows for easy inclusion of links, lists, and other markdown features.
-  - Markdown is rendered using **ReactMarkdown**, which converts markdown text to React components.
-  - The frontend processes the markdown text received from the API and renders it appropriately.
-        `,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        sender: 'openai',
+        text: `Hey, how can I assist you today?`,
+        timestamp: currentTimestamp
       }
     ];
     setChatLog(initialMessages);
   }, []);
+
+
 
   useEffect(() => {
     // Scroll to the bottom when chatLog or isLoading changes
@@ -167,44 +170,44 @@ const App = () => {
       setChatLog((prev) => prev.slice(0, -1).concat(openaiMessage));
     } catch (error) {
       console.error('Error generating text:', error);
-const errorMessage = {
-  sender: 'error',
-  text: 'Error generating text. Please try again.',
-  timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-};
-setChatLog((prev) => prev.slice(0, -1).concat(errorMessage));
-} finally {
-  setIsLoading(false); // Stop loading
-}
-}, [prompt]);
+      const errorMessage = {
+        sender: 'error',
+        text: 'Error generating text. Please try again.',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
+      setChatLog((prev) => prev.slice(0, -1).concat(errorMessage));
+    } finally {
+      setIsLoading(false); // Stop loading
+    }
+  }, [prompt]);
 
-const toggleTheme = useCallback(() => {
-  setTheme((prev) => {
-    const newTheme = prev === 'dark' ? 'light' : 'dark';
-    localStorage.setItem('theme', newTheme); // Persist theme preference
-    return newTheme;
-  });
-}, []);
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => {
+      const newTheme = prev === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', newTheme); // Persist theme preference
+      return newTheme;
+    });
+  }, []);
 
-return (
-  <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-    <GlobalStyle /> {/* Apply global styles */}
-    <Container>
-      <Header apiStatus={apiStatus} toggleTheme={toggleTheme} currentTheme={theme} />
+  return (
+    <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
+      <GlobalStyle /> {/* Apply global styles */}
+      <Container>
+        <Header apiStatus={apiStatus} toggleTheme={toggleTheme} currentTheme={theme} />
 
-      {/* Wrap lazy-loaded components with Suspense */}
-      <Suspense fallback={<Loading>Loading chat...</Loading>}>
-        <ChatLog chatLog={chatLog} theme={theme} chatEndRef={chatEndRef} /> {/* Pass chatEndRef */}
-      </Suspense>
+        {/* Wrap lazy-loaded components with Suspense */}
+        <Suspense fallback={<Loading>Loading chat...</Loading>}>
+          <ChatLog chatLog={chatLog} theme={theme} chatEndRef={chatEndRef} /> {/* Pass chatEndRef */}
+        </Suspense>
 
-      <Suspense fallback={<Loading>Loading input...</Loading>}>
-        <InputArea prompt={prompt} setPrompt={setPrompt} handleGenerateText={handleGenerateText} />
-      </Suspense>
+        <Suspense fallback={<Loading>Loading input...</Loading>}>
+          <InputArea prompt={prompt} setPrompt={setPrompt} handleGenerateText={handleGenerateText} />
+        </Suspense>
 
-      <div ref={chatEndRef} /> {/* For auto-scrolling */}
-    </Container>
-  </ThemeProvider>
-);
+        <div ref={chatEndRef} /> {/* For auto-scrolling */}
+      </Container>
+    </ThemeProvider>
+  );
 };
 
 export default App;
