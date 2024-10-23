@@ -114,6 +114,14 @@ const App = () => {
     setChatLog((prev) => [...prev, userMessage]);
     setIsLoading(true); // Start loading
 
+    // Add a "Typing..." message
+    const typingMessage = {
+      sender: 'openai',
+      text: 'Typing...',
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+    setChatLog((prev) => [...prev, typingMessage]);
+
     try {
       const response = await fetch('https://chatgpt-express-server-186364516466.us-central1.run.app/openai', {
         method: 'POST',
@@ -127,7 +135,9 @@ const App = () => {
         text: data.generatedText,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
-      setChatLog((prev) => [...prev, openaiMessage]);
+
+      // Remove the "Typing..." message and add the actual response
+      setChatLog((prev) => prev.slice(0, -1).concat(openaiMessage));
     } catch (error) {
       console.error('Error generating text:', error);
       const errorMessage = {
@@ -135,11 +145,10 @@ const App = () => {
         text: 'Error generating text. Please try again.',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
-      setChatLog((prev) => [...prev, errorMessage]);
+      setChatLog((prev) => prev.slice(0, -1).concat(errorMessage));
+    } finally {
+      setIsLoading(false); // Stop loading
     }
-
-    setPrompt('');
-    setIsLoading(false); // End loading
   }, [prompt]);
 
   const toggleTheme = useCallback(() => {

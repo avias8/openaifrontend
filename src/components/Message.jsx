@@ -2,18 +2,16 @@
 
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import { FaUserCircle, FaRobot } from 'react-icons/fa';
+import { FaUserCircle, FaRobot, FaCog } from 'react-icons/fa'; // Import FaCog for system messages
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
 import js from 'react-syntax-highlighter/dist/esm/languages/hljs/javascript';
 import { github } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import TypingIndicator from './TypingIndicator'; // Import the TypingIndicator component
 
 // Register JavaScript language for syntax highlighting
 SyntaxHighlighter.registerLanguage('javascript', js);
-// Register additional languages as needed
-// import python from 'react-syntax-highlighter/dist/esm/languages/hljs/python';
-// SyntaxHighlighter.registerLanguage('python', python);
 
 const slideIn = keyframes`
   from {
@@ -26,39 +24,39 @@ const slideIn = keyframes`
   }
 `;
 
-const TypingAnimation = keyframes`
-  0% { opacity: 0.2; }
-  20% { opacity: 1; }
-  100% { opacity: 0.2; }
-`;
-
 const MessageContainer = styled.div`
   display: flex;
   align-items: flex-start;
   margin-bottom: 15px;
-  max-width: ${({ sender }) => (sender === 'user' ? '100%' : '80%')};
-  flex-direction: ${({ sender }) => (sender === 'user' ? 'row-reverse' : 'row')};
-  align-self: ${({ sender }) => (sender === 'user' ? 'flex-end' : 'flex-start')};
+  max-width: ${({ $sender }) => ($sender === 'user' ? '100%' : '80%')};
+  flex-direction: ${({ $sender }) => ($sender === 'user' ? 'row-reverse' : 'row')};
+  align-self: ${({ $sender }) => ($sender === 'user' ? 'flex-end' : 'flex-start')};
   
   @media (max-width: 600px) {
-    max-width: ${({ sender }) => (sender === 'user' ? '95%' : '90%')};
+    max-width: ${({ $sender }) => ($sender === 'user' ? '95%' : '90%')};
   }
 `;
 
 const Avatar = styled.div`
-  margin-right: ${({ sender }) => (sender === 'user' ? '0' : '8px')};
-  margin-left: ${({ sender }) => (sender === 'user' ? '8px' : '0')};
+  margin-right: ${({ $sender }) => ($sender === 'user' ? '0' : '8px')};
+  margin-left: ${({ $sender }) => ($sender === 'user' ? '8px' : '0')};
   display: flex;
   align-items: center;
+
+  img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+  }
 `;
 
 const MessageBubble = styled.div`
   padding: 12px 20px;
   border-radius: 20px;
-  background: ${({ sender, theme }) =>
-    sender === 'user'
+  background: ${({ $sender, theme }) =>
+    $sender === 'user'
       ? theme.messageUser
-      : sender === 'openai'
+      : $sender === 'openai'
       ? theme.messageOpenAI
       : theme.messageError};
   color: ${({ theme }) => theme.textColor}; /* Dynamic text color */
@@ -111,37 +109,18 @@ const Timestamp = styled.span`
   font-size: 0.75rem;
   color: #ccc;
   margin-top: 5px;
-  text-align: ${({ sender }) => (sender === 'user' ? 'right' : 'left')};
-`;
-
-const TypingIndicator = styled.div`
-  display: flex;
-  gap: 4px;
-  margin-top: 5px;
-
-  div {
-    width: 6px;
-    height: 6px;
-    background-color: ${({ theme }) => theme.textColor};
-    border-radius: 50%;
-    animation: ${TypingAnimation} 1s infinite;
-  }
-
-  div:nth-child(2) {
-    animation-delay: 0.2s;
-  }
-
-  div:nth-child(3) {
-    animation-delay: 0.4s;
-  }
+  text-align: ${({ $sender }) => ($sender === 'user' ? 'right' : 'left')};
 `;
 
 const Message = ({ message }) => {
   const { sender, text, timestamp } = message;
 
+  // Add console log to check the message text
+  console.log(text); // Check if this is properly set to "Typing..."
+
   return (
-    <MessageContainer sender={sender}>
-      <Avatar sender={sender}>
+    <MessageContainer $sender={sender}>
+      <Avatar $sender={sender}>
         {sender === 'openai' && (
           <FaRobot
             size={24}
@@ -151,18 +130,17 @@ const Message = ({ message }) => {
         {sender === 'user' && (
           <FaUserCircle size={24} />
         )}
+        {sender === 'system' && (
+          <FaCog size={24} /> // System messages use FaCog icon
+        )}
         {sender === 'error' && (
           <FaRobot size={24} color="#dc3545" />
         )}
       </Avatar>
       <div>
-        <MessageBubble sender={sender}>
+        <MessageBubble $sender={sender}>
           {sender === 'openai' && text === 'Typing...' ? (
-            <TypingIndicator>
-              <div></div>
-              <div></div>
-              <div></div>
-            </TypingIndicator>
+            <TypingIndicator />
           ) : (
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
@@ -218,7 +196,7 @@ const Message = ({ message }) => {
             </ReactMarkdown>
           )}
         </MessageBubble>
-        <Timestamp sender={sender}>
+        <Timestamp $sender={sender}>
           {text === 'Typing...' ? 'Typing...' : timestamp}
         </Timestamp>
       </div>
