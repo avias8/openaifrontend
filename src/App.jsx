@@ -28,6 +28,7 @@ const Container = styled.div`
   transition: background 0.3s, color 0.3s;
 
   @media (max-width: 600px) {
+    padding: 5px; /* Reduced padding for smaller screens */
     max-width: 90vw;
   }
 `;
