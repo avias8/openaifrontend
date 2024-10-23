@@ -1,16 +1,21 @@
 {
   "files": {
-    "main.css": "/openaifrontend/static/css/main.f855e6bc.css",
-    "main.js": "/openaifrontend/static/js/main.abcd0b0a.js",
+    "main.css": "/openaifrontend/static/css/main.e6c13ad2.css",
+    "main.js": "/openaifrontend/static/js/main.a5f142e1.js",
+    "static/js/978.26961884.chunk.js": "/openaifrontend/static/js/978.26961884.chunk.js",
+    "static/js/4.2ace0ab6.chunk.js": "/openaifrontend/static/js/4.2ace0ab6.chunk.js",
     "static/js/453.c37d3634.chunk.js": "/openaifrontend/static/js/453.c37d3634.chunk.js",
-    "static/media/logo.svg": "/openaifrontend/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "static/js/925.b2d5d68f.chunk.js": "/openaifrontend/static/js/925.b2d5d68f.chunk.js",
     "index.html": "/openaifrontend/index.html",
-    "main.f855e6bc.css.map": "/openaifrontend/static/css/main.f855e6bc.css.map",
-    "main.abcd0b0a.js.map": "/openaifrontend/static/js/main.abcd0b0a.js.map",
-    "453.c37d3634.chunk.js.map": "/openaifrontend/static/js/453.c37d3634.chunk.js.map"
+    "main.e6c13ad2.css.map": "/openaifrontend/static/css/main.e6c13ad2.css.map",
+    "main.a5f142e1.js.map": "/openaifrontend/static/js/main.a5f142e1.js.map",
+    "978.26961884.chunk.js.map": "/openaifrontend/static/js/978.26961884.chunk.js.map",
+    "4.2ace0ab6.chunk.js.map": "/openaifrontend/static/js/4.2ace0ab6.chunk.js.map",
+    "453.c37d3634.chunk.js.map": "/openaifrontend/static/js/453.c37d3634.chunk.js.map",
+    "925.b2d5d68f.chunk.js.map": "/openaifrontend/static/js/925.b2d5d68f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.f855e6bc.css",
-    "static/js/main.abcd0b0a.js"
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.a5f142e1.js"
   ]
 }
