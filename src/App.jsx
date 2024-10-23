@@ -84,32 +84,55 @@ const App = () => {
         text: `
   # Welcome to Avi Varma's Inference API!
   
-  This is a **React-based front end** for interacting with a **Google Cloud-hosted API**. The API provides inference capabilities using **machine learning** models and generates responses for requests you send. Here's a technical overview of how this system works.
+  This is a **React-based front end** for interacting with a **Google Cloud-hosted API**. The API provides inference capabilities using **machine learning** models and generates responses for requests you send. Below is a technical overview of the system.\n\n
   
   ---
   
   ## Technical Breakdown
   
   ### Frontend:
-  - [x] **React**: This dynamic, component-based UI was built using **React**, ensuring a seamless user experience.
-  - [x] **Styled-components**: For styling, we use **styled-components**, which provides scoped CSS for each component. This ensures a modular design and prevents global CSS conflicts.
-  - [x] **Markdown Handling**: We use **ReactMarkdown** for parsing markdown input, allowing us to support rich text formatting like headings, lists, and links.
-  - [x] **Syntax Highlighting**: For code snippets, we're using **react-syntax-highlighter**. This library supports highlighting for multiple programming languages, ensuring any code blocks displayed are easy to read.
+  - **React**: A dynamic, component-based UI built for seamless user experiences.
+  - **Styled-components**: Scoped CSS for modular design and conflict-free styling.
+  - **Markdown Handling**: We use \`ReactMarkdown\` for parsing markdown input and supporting rich text formatting.
+  - **Syntax Highlighting**: Code snippets are highlighted using \`react-syntax-highlighter\`.
+
+  Example of syntax highlighting:
+  \`\`\`jsx
+  import React from 'react';
+  import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
+  import { github } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+
+  const CodeBlock = () => (
+    <SyntaxHighlighter language="javascript" style={github}>
+      { \`const greeting = 'Hello, World!';\` }
+    </SyntaxHighlighter>
+  );
+  \`\`\`
   
   ### Backend:
-  - [x] **Google Cloud Run**: The backend server is deployed on **Google Cloud Run**, a fully managed serverless platform. This allows the service to automatically scale based on traffic, while keeping costs low during inactive periods.
-  - [x] **Express.js**: The server logic is written in **Express.js**, handling API requests and communicating with external services like the **OpenAI API**.
-  - [x] **Inference API**: The API is responsible for performing inference on input data, such as user inputs or images, and returning predictions. The responses are formatted as markdown, giving flexibility to include text, code blocks, or lists.
-
+  - **Google Cloud Run**: A scalable, serverless platform that automatically adjusts based on traffic while keeping costs low.
+  - **Express.js**: Manages API requests and integrates with external services like the OpenAI API.
+  - **Inference API**: Processes user inputs or images and returns predictions in markdown format, allowing flexible responses.
+  
   ---
   
   ### Markdown Rendering:
-  - [x] Markdown responses from the backend are processed using **ReactMarkdown**. This ensures any formatting, links, or code blocks are displayed properly on the front end.
-  - [x] GitHub-flavored markdown (GFM) is enabled using the **remark-gfm** plugin, allowing features like checkboxes, tables, and strikethroughs.
+  - **ReactMarkdown**: Displays markdown responses, including formatted text, links, and code blocks.
+  - **GitHub-flavored markdown (GFM)**: Enabled via the \`remark-gfm\` plugin, supporting features like checkboxes, tables, and strikethroughs.
+  Example of GFM:
+  - [x] Task 1
+  - [x] Task 2
+
+  | Feature       | Status |
+  | ------------- | ------ |
+  | React         | ✅     |
+  | Express.js    | ✅     |
+  | Google Cloud  | ✅     |
   
   ---
-  
-  I hope this gives you a solid understanding of the system. Feel free to explore the API and ask any questions you may have!`,
+  I hope this gives you a solid understanding of the system. Feel free to explore the API and ask any questions you may have!\n
+        `,
+
         timestamp: currentTimestamp
       },
       {
@@ -121,8 +144,8 @@ const App = () => {
     ];
     setChatLog(initialMessages);
   }, []);
-
-
+  
+  
 
   useEffect(() => {
     // Scroll to the bottom when chatLog or isLoading changes
@@ -170,44 +193,44 @@ const App = () => {
       setChatLog((prev) => prev.slice(0, -1).concat(openaiMessage));
     } catch (error) {
       console.error('Error generating text:', error);
-      const errorMessage = {
-        sender: 'error',
-        text: 'Error generating text. Please try again.',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      };
-      setChatLog((prev) => prev.slice(0, -1).concat(errorMessage));
-    } finally {
-      setIsLoading(false); // Stop loading
-    }
-  }, [prompt]);
+const errorMessage = {
+  sender: 'error',
+  text: 'Error generating text. Please try again.',
+  timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+};
+setChatLog((prev) => prev.slice(0, -1).concat(errorMessage));
+} finally {
+  setIsLoading(false); // Stop loading
+}
+}, [prompt]);
 
-  const toggleTheme = useCallback(() => {
-    setTheme((prev) => {
-      const newTheme = prev === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('theme', newTheme); // Persist theme preference
-      return newTheme;
-    });
-  }, []);
+const toggleTheme = useCallback(() => {
+  setTheme((prev) => {
+    const newTheme = prev === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('theme', newTheme); // Persist theme preference
+    return newTheme;
+  });
+}, []);
 
-  return (
-    <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-      <GlobalStyle /> {/* Apply global styles */}
-      <Container>
-        <Header apiStatus={apiStatus} toggleTheme={toggleTheme} currentTheme={theme} />
+return (
+  <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
+    <GlobalStyle /> {/* Apply global styles */}
+    <Container>
+      <Header apiStatus={apiStatus} toggleTheme={toggleTheme} currentTheme={theme} />
 
-        {/* Wrap lazy-loaded components with Suspense */}
-        <Suspense fallback={<Loading>Loading chat...</Loading>}>
-          <ChatLog chatLog={chatLog} theme={theme} chatEndRef={chatEndRef} /> {/* Pass chatEndRef */}
-        </Suspense>
+      {/* Wrap lazy-loaded components with Suspense */}
+      <Suspense fallback={<Loading>Loading chat...</Loading>}>
+        <ChatLog chatLog={chatLog} theme={theme} chatEndRef={chatEndRef} /> {/* Pass chatEndRef */}
+      </Suspense>
 
-        <Suspense fallback={<Loading>Loading input...</Loading>}>
-          <InputArea prompt={prompt} setPrompt={setPrompt} handleGenerateText={handleGenerateText} />
-        </Suspense>
+      <Suspense fallback={<Loading>Loading input...</Loading>}>
+        <InputArea prompt={prompt} setPrompt={setPrompt} handleGenerateText={handleGenerateText} />
+      </Suspense>
 
-        <div ref={chatEndRef} /> {/* For auto-scrolling */}
-      </Container>
-    </ThemeProvider>
-  );
+      <div ref={chatEndRef} /> {/* For auto-scrolling */}
+    </Container>
+  </ThemeProvider>
+);
 };
 
 export default App;

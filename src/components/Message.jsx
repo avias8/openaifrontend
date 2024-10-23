@@ -1,17 +1,10 @@
-// src/components/Message.jsx
-
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { FaUserCircle, FaRobot } from 'react-icons/fa'; // Import FaCog for system messages
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
-import js from 'react-syntax-highlighter/dist/esm/languages/hljs/javascript';
-import { github } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import CodeBlock from './CodeBlock'; // Import your CodeBlock component
 import TypingIndicator from './TypingIndicator'; // Import the TypingIndicator component
-
-// Register JavaScript language for syntax highlighting
-SyntaxHighlighter.registerLanguage('javascript', js);
 
 const slideIn = keyframes`
   from {
@@ -31,7 +24,7 @@ const MessageContainer = styled.div`
   max-width: ${({ $sender }) => ($sender === 'user' ? '100%' : '80%')};
   flex-direction: ${({ $sender }) => ($sender === 'user' ? 'row-reverse' : 'row')};
   align-self: ${({ $sender }) => ($sender === 'user' ? 'flex-end' : 'flex-start')};
-  
+
   @media (max-width: 600px) {
     max-width: ${({ $sender }) => ($sender === 'user' ? '95%' : '90%')};
   }
@@ -51,7 +44,7 @@ const Avatar = styled.div`
 `;
 
 const MessageBubble = styled.div`
-  padding: 10px 15px; /* Reduced padding for the message bubble */
+  padding: 10px 15px;
   border-radius: 20px;
   background: ${({ $sender, theme }) =>
     $sender === 'user'
@@ -70,7 +63,6 @@ const MessageBubble = styled.div`
   font-size: ${({ $sender }) => ($sender === 'system' ? '0.8em' : '1em')}; /* Smaller text for system messages */
   white-space: pre-wrap; /* Preserve whitespace and line breaks */
 
-  /* Adjust the margins and paddings for markdown elements */
   h1, h2, h3, h4, h5, h6 {
     margin: 5px 0; /* Reduced margin for headers */
   }
@@ -94,11 +86,26 @@ const MessageBubble = styled.div`
     margin: 0;
     font-size: 85%;
     border-radius: 3px;
-    font-family: 'Source Code Pro', monospace; /* Use a monospace font for code */
-    color: inherit; /* Inherit color to prevent overriding text color */
+    font-family: 'Source Code Pro', monospace;
+    color: inherit;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  th {
+    background-color: #f4f4f4;
+    font-weight: bold;
   }
 `;
-
 
 const Timestamp = styled.span`
   display: block;
@@ -110,9 +117,6 @@ const Timestamp = styled.span`
 
 const Message = ({ message }) => {
   const { sender, text, timestamp } = message;
-
-  // Add console log to check the message text
-  console.log(text); // Check if this is properly set to "Typing..."
 
   return (
     <MessageContainer $sender={sender}>
@@ -127,7 +131,7 @@ const Message = ({ message }) => {
           <FaUserCircle size={24} />
         )}
         {sender === 'system' && (
-          <img src = "https://avivarma.ca/images/avivarma.jpeg" alt = "Avi"/> // System messages use FaCog icon
+          <img src="https://avivarma.ca/images/avivarma.jpeg" alt="Avi" />
         )}
         {sender === 'error' && (
           <FaRobot size={24} color="#dc3545" />
@@ -144,14 +148,7 @@ const Message = ({ message }) => {
                 code({ node, inline, className, children, ...props }) {
                   const match = /language-(\w+)/.exec(className || '');
                   return !inline && match ? (
-                    <SyntaxHighlighter
-                      style={github}
-                      language={match[1]}
-                      PreTag="div"
-                      {...props}
-                    >
-                      {String(children).replace(/\n$/, '')}
-                    </SyntaxHighlighter>
+                    <CodeBlock code={String(children).replace(/\n$/, '')} />
                   ) : (
                     <code
                       className={className}
@@ -173,19 +170,12 @@ const Message = ({ message }) => {
                     style={{ color: '#667eea', textDecoration: 'underline' }}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={
-                      children && children.length > 0
-                        ? typeof children[0] === 'string'
-                          ? children[0]
-                          : 'Link'
-                        : 'Link'
-                    }
+                    aria-label={children && children.length > 0 ? (typeof children[0] === 'string' ? children[0] : 'Link') : 'Link'}
                     {...props}
                   >
                     {children}
                   </a>
                 ),
-                // Add more custom renderers if needed
               }}
             >
               {text}
