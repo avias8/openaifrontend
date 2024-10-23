@@ -98,9 +98,9 @@ This is a **React-based front end** for interacting with a **Google Cloud-hosted
 ### Frontend:
 - **React**: A dynamic, component-based UI built for seamless user experiences.
 - **Styled-components**: Scoped CSS for modular design and conflict-free styling.
-- **Markdown Handling**: We use \`ReactMarkdown\` for parsing markdown input and supporting rich text formatting.
+- **Markdown Handling**: I use \`ReactMarkdown\` for parsing markdown input and supporting rich text formatting.
 - **Syntax Highlighting**: Code snippets are highlighted using \`react-syntax-highlighter\`.
-- **Clipboard Support for Code Blocks**: We use \`react-copy-to-clipboard\` to add a convenient "copy to clipboard" button, allowing users to easily copy code snippets.
+- **Clipboard Support for Code Blocks**: I use \`react-copy-to-clipboard\` to add a convenient "copy to clipboard" button, allowing users to easily copy code snippets.
 
 #### Markdown Rendering:
 - **ReactMarkdown**: Displays markdown responses, including formatted text, links, and code blocks.
@@ -112,6 +112,7 @@ This is a **React-based front end** for interacting with a **Google Cloud-hosted
 | Express.js             | ✅     |
 | Google Cloud           | ✅     |
 | react-copy-to-clipboard| ✅     |
+
 
 `,
         timestamp: currentTimestamp
@@ -125,8 +126,8 @@ This is a **React-based front end** for interacting with a **Google Cloud-hosted
     ];
     setChatLog(initialMessages);
   }, []);
-  
-  
+
+
 
   useEffect(() => {
     // Scroll to the bottom when chatLog or isLoading changes
@@ -174,44 +175,44 @@ This is a **React-based front end** for interacting with a **Google Cloud-hosted
       setChatLog((prev) => prev.slice(0, -1).concat(openaiMessage));
     } catch (error) {
       console.error('Error generating text:', error);
-const errorMessage = {
-  sender: 'error',
-  text: 'Error generating text. Please try again.',
-  timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-};
-setChatLog((prev) => prev.slice(0, -1).concat(errorMessage));
-} finally {
-  setIsLoading(false); // Stop loading
-}
-}, [prompt]);
+      const errorMessage = {
+        sender: 'error',
+        text: 'Error generating text. Please try again.',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
+      setChatLog((prev) => prev.slice(0, -1).concat(errorMessage));
+    } finally {
+      setIsLoading(false); // Stop loading
+    }
+  }, [prompt]);
 
-const toggleTheme = useCallback(() => {
-  setTheme((prev) => {
-    const newTheme = prev === 'dark' ? 'light' : 'dark';
-    localStorage.setItem('theme', newTheme); // Persist theme preference
-    return newTheme;
-  });
-}, []);
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => {
+      const newTheme = prev === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', newTheme); // Persist theme preference
+      return newTheme;
+    });
+  }, []);
 
-return (
-  <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-    <GlobalStyle /> {/* Apply global styles */}
-    <Container>
-      <Header apiStatus={apiStatus} toggleTheme={toggleTheme} currentTheme={theme} />
+  return (
+    <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
+      <GlobalStyle /> {/* Apply global styles */}
+      <Container>
+        <Header apiStatus={apiStatus} toggleTheme={toggleTheme} currentTheme={theme} />
 
-      {/* Wrap lazy-loaded components with Suspense */}
-      <Suspense fallback={<Loading>Loading chat...</Loading>}>
-        <ChatLog chatLog={chatLog} theme={theme} chatEndRef={chatEndRef} /> {/* Pass chatEndRef */}
-      </Suspense>
+        {/* Wrap lazy-loaded components with Suspense */}
+        <Suspense fallback={<Loading>Loading chat...</Loading>}>
+          <ChatLog chatLog={chatLog} theme={theme} chatEndRef={chatEndRef} /> {/* Pass chatEndRef */}
+        </Suspense>
 
-      <Suspense fallback={<Loading>Loading input...</Loading>}>
-        <InputArea prompt={prompt} setPrompt={setPrompt} handleGenerateText={handleGenerateText} />
-      </Suspense>
+        <Suspense fallback={<Loading>Loading input...</Loading>}>
+          <InputArea prompt={prompt} setPrompt={setPrompt} handleGenerateText={handleGenerateText} />
+        </Suspense>
 
-      <div ref={chatEndRef} /> {/* For auto-scrolling */}
-    </Container>
-  </ThemeProvider>
-);
+        <div ref={chatEndRef} /> {/* For auto-scrolling */}
+      </Container>
+    </ThemeProvider>
+  );
 };
 
 export default App;
