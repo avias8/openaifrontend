@@ -24,10 +24,6 @@ const MessageContainer = styled.div`
   max-width: ${({ $sender }) => ($sender === 'user' ? '100%' : '80%')};
   flex-direction: ${({ $sender }) => ($sender === 'user' ? 'row-reverse' : 'row')};
   align-self: ${({ $sender }) => ($sender === 'user' ? 'flex-end' : 'flex-start')};
-
-  @media (max-width: 600px) {
-    max-width: ${({ $sender }) => ($sender === 'user' ? '95%' : '90%')};
-  }
 `;
 
 const Avatar = styled.div`
@@ -58,9 +54,21 @@ const MessageBubble = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   animation: ${slideIn} 0.3s ease-out;
   transition: background 0.3s, color 0.3s;
+  overflow-wrap: break-word;
   word-wrap: break-word;
+  white-space: normal;
   flex: 1;
-  white-space: pre-wrap;
+  max-width: 100%;
+  min-width: 0; /* Ensure the bubble can shrink as needed */
+  margin: 0; /* Ensure no extra margin */
+
+  @media (max-width: 768px) {
+    max-width: 80%;
+  }
+
+  @media (max-width: 480px) {
+    max-width: 70%;
+  }
 
   h1, h2, h3, h4, h5, h6 {
     margin: 5px 0;
@@ -94,11 +102,11 @@ const MessageBubble = styled.div`
     width: 100%;
     border-collapse: collapse;
     margin: 10px 0;
-    background-color: ${({ theme }) => theme.tableBackground}; /* Ensure a background for visibility */
+    background-color: ${({ theme }) => theme.tableBackground};
   }
 
   th, td {
-    border: 1px solid ${({ theme }) => theme.tableBorderColor}; /* Ensures border visibility */
+    border: 1px solid ${({ theme }) => theme.tableBorderColor};
     padding: 8px;
   }
 

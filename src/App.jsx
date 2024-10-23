@@ -28,9 +28,7 @@ const Container = styled.div`
   transition: background 0.3s, color 0.3s;
 
   @media (max-width: 600px) {
-    padding: 15px; /* Adjusted for smaller screens */
-    margin: 20px auto;
-    max-width: 95%;
+    max-width: 90vw;
   }
 `;
 
