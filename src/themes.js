@@ -8,13 +8,16 @@ export const darkTheme = {
   messageUser: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
   messageOpenAI: '#1e1e1e',
   messageError: '#dc3545',
+  messageSystem: '#4a4a4a', // Lighter grey for better contrast in dark mode
   textColor: '#ffffff', // White text for dark theme
-  iconColor: '#ffffff', // White icons for dark theme
-  placeholderColor: '#a0a0a0', // Placeholder text color for dark theme
+  iconColor: '#ffffff',
+  placeholderColor: '#a0a0a0',
   sendButtonBackground: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
   sendButtonHoverBackground: 'linear-gradient(135deg, #5a67d8 0%, #6b5dba 100%)',
-  scrollbarThumb: '#888888', // Add scrollbar thumb color for dark mode
-  scrollbarTrack: '#333333', // Add scrollbar track color for dark mode
+  scrollbarThumb: '#888888',
+  scrollbarTrack: '#333333',
+  tableBackground: '#1c1c1c', // Darker table background to contrast with text
+  tableBorderColor: '#555555'  // Visible borders in dark theme
 };
 
 export const lightTheme = {
@@ -25,11 +28,14 @@ export const lightTheme = {
   messageUser: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
   messageOpenAI: '#e0e0e0',
   messageError: '#dc3545',
-  textColor: '#000000', // Black text for light theme
-  iconColor: '#000000', // Black icons for light theme
-  placeholderColor: '#606060', // Placeholder text color for light theme
+  messageSystem: '#d9d9d9', // Slightly darker grey for good visibility in light mode
+  textColor: '#000000',
+  iconColor: '#000000',
+  placeholderColor: '#606060',
   sendButtonBackground: 'linear-gradient(135deg, #34c759 0%, #28a745 100%)',
   sendButtonHoverBackground: 'linear-gradient(135deg, #28a745 0%, #218838 100%)',
-  scrollbarThumb: '#888888', // Add scrollbar thumb color for light mode
-  scrollbarTrack: '#f0f0f0', // Add scrollbar track color for light mode
+  scrollbarThumb: '#888888',
+  scrollbarTrack: '#f0f0f0',
+  tableBackground: '#ffffff', // Light table background for contrast
+  tableBorderColor: '#dddddd'  // Light table borders
 };

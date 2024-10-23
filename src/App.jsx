@@ -18,7 +18,7 @@ const Container = styled.div`
   background: ${({ theme }) => theme.background};
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  max-width: 800px;
+  max-width: 1000px;
   margin: 40px auto;
   color: ${({ theme }) => theme.textColor};
   position: relative;
@@ -83,56 +83,37 @@ const App = () => {
         sender: 'system',
         text: `
   # Welcome to Avi Varma's Inference API!
-  
-  This is a **React-based front end** for interacting with a **Google Cloud-hosted API**. The API provides inference capabilities using **machine learning** models and generates responses for requests you send. Below is a technical overview of the system.\n\n
-  
-  ---
-  
-  ## Technical Breakdown
-  
-  ### Frontend:
-  - **React**: A dynamic, component-based UI built for seamless user experiences.
-  - **Styled-components**: Scoped CSS for modular design and conflict-free styling.
-  - **Markdown Handling**: We use \`ReactMarkdown\` for parsing markdown input and supporting rich text formatting.
-  - **Syntax Highlighting**: Code snippets are highlighted using \`react-syntax-highlighter\`.
 
-  Example of syntax highlighting:
-  \`\`\`jsx
-  import React from 'react';
-  import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
-  import { github } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+This is a **React-based front end** for interacting with a **Google Cloud-hosted API**. The API provides inference capabilities using **machine learning** models and generates responses for requests you send. Below is a technical overview of the system.
 
-  const CodeBlock = () => (
-    <SyntaxHighlighter language="javascript" style={github}>
-      { \`const greeting = 'Hello, World!';\` }
-    </SyntaxHighlighter>
-  );
-  \`\`\`
-  
-  ### Backend:
-  - **Google Cloud Run**: A scalable, serverless platform that automatically adjusts based on traffic while keeping costs low.
-  - **Express.js**: Manages API requests and integrates with external services like the OpenAI API.
-  - **Inference API**: Processes user inputs or images and returns predictions in markdown format, allowing flexible responses.
-  
-  ---
-  
-  ### Markdown Rendering:
-  - **ReactMarkdown**: Displays markdown responses, including formatted text, links, and code blocks.
-  - **GitHub-flavored markdown (GFM)**: Enabled via the \`remark-gfm\` plugin, supporting features like checkboxes, tables, and strikethroughs.
-  Example of GFM:
-  - [x] Task 1
-  - [x] Task 2
+---
 
-  | Feature       | Status |
-  | ------------- | ------ |
-  | React         | ✅     |
-  | Express.js    | ✅     |
-  | Google Cloud  | ✅     |
-  
-  ---
-  I hope this gives you a solid understanding of the system. Feel free to explore the API and ask any questions you may have!\n
-        `,
+## Technical Breakdown
 
+### Backend:
+- **Google Cloud Run**: A scalable, serverless platform that automatically adjusts based on traffic while keeping costs low.
+- **Express.js**: Manages API requests and integrates with external services like the OpenAI API.
+- **Inference API**: Processes user inputs or images and returns predictions in markdown format, allowing flexible responses.
+
+### Frontend:
+- **React**: A dynamic, component-based UI built for seamless user experiences.
+- **Styled-components**: Scoped CSS for modular design and conflict-free styling.
+- **Markdown Handling**: We use \`ReactMarkdown\` for parsing markdown input and supporting rich text formatting.
+- **Syntax Highlighting**: Code snippets are highlighted using \`react-syntax-highlighter\`.
+- **Clipboard Support for Code Blocks**: We use \`react-copy-to-clipboard\` to add a convenient "copy to clipboard" button, allowing users to easily copy code snippets.
+
+#### Markdown Rendering:
+- **ReactMarkdown**: Displays markdown responses, including formatted text, links, and code blocks.
+- [x] **GitHub-flavored markdown (GFM)**: Enabled via the \`remark-gfm\` plugin, supporting features like checkboxes, tables, and strikethroughs.
+
+| Feature                | Status |
+| ---------------------- | ------ |
+| React                  | ✅     |
+| Express.js             | ✅     |
+| Google Cloud           | ✅     |
+| react-copy-to-clipboard| ✅     |
+
+`,
         timestamp: currentTimestamp
       },
       {

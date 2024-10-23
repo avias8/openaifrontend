@@ -52,28 +52,27 @@ const MessageBubble = styled.div`
       : $sender === 'openai'
       ? theme.messageOpenAI
       : $sender === 'system'
-      ? 'green' // Set system message bubble to green
+      ? theme.messageSystem
       : theme.messageError};
-  color: ${({ theme }) => theme.textColor}; /* Dynamic text color */
+  color: ${({ theme }) => theme.textColor};
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   animation: ${slideIn} 0.3s ease-out;
   transition: background 0.3s, color 0.3s;
   word-wrap: break-word;
   flex: 1;
-  font-size: ${({ $sender }) => ($sender === 'system' ? '0.8em' : '1em')}; /* Smaller text for system messages */
-  white-space: pre-wrap; /* Preserve whitespace and line breaks */
+  white-space: pre-wrap;
 
   h1, h2, h3, h4, h5, h6 {
-    margin: 5px 0; /* Reduced margin for headers */
+    margin: 5px 0;
   }
 
   p {
-    margin: 5px 0; /* Reduced margin for paragraphs */
+    margin: 5px 0;
   }
 
   ul, ol {
-    padding-left: 15px; /* Slightly reduced padding for lists */
-    margin: 5px 0; /* Reduced margin for list items */
+    padding-left: 15px;
+    margin: 5px 0;
   }
 
   strong {
@@ -81,7 +80,7 @@ const MessageBubble = styled.div`
   }
 
   code {
-    background-color: rgba(27,31,35,0.05);
+    background-color: rgba(27, 31, 35, 0.05);
     padding: 0.2em 0.4em;
     margin: 0;
     font-size: 85%;
@@ -90,22 +89,27 @@ const MessageBubble = styled.div`
     color: inherit;
   }
 
+  /* Table styling */
   table {
     width: 100%;
     border-collapse: collapse;
     margin: 10px 0;
+    background-color: ${({ theme }) => theme.tableBackground}; /* Ensure a background for visibility */
   }
 
   th, td {
-    border: 1px solid #ddd;
+    border: 1px solid ${({ theme }) => theme.tableBorderColor}; /* Ensures border visibility */
     padding: 8px;
   }
 
   th {
-    background-color: #f4f4f4;
+    background-color: ${({ theme }) => theme.textColor};
+    color: ${({ theme }) => theme.background};
     font-weight: bold;
   }
 `;
+
+
 
 const Timestamp = styled.span`
   display: block;
