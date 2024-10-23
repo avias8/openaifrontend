@@ -3,14 +3,12 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
-
   /* Reset some default styles */
   body {
     margin: 0;
     padding: 0;
     background-color: ${({ theme }) => theme.background};
-    font-family: 'Montserrat', sans-serif; /* Updated font family */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: ${({ theme }) => theme.textColor};
     transition: background-color 0.3s, color 0.3s;
     height: 100vh; /* Ensure body takes full viewport height */
