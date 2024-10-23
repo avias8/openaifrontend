@@ -76,6 +76,15 @@ const App = () => {
   }, [checkApiStatus]); // Include checkApiStatus in dependencies
 
   useEffect(() => {
+    // Define initial messages
+    const initialMessages = [
+      { id: 1, sender: 'system', text: 'Welcome to the chat!', timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) },
+      { id: 2, sender: 'system', text: 'How can I assist you today?', timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+    ];
+    setChatLog(initialMessages);
+  }, []);
+  
+  useEffect(() => {
     // Scroll to the bottom when chatLog or isLoading changes
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatLog, isLoading]);
