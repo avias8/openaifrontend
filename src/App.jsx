@@ -106,13 +106,26 @@ This is a **React-based front end** for interacting with a **Google Cloud-hosted
 - **ReactMarkdown**: Displays markdown responses, including formatted text, links, and code blocks.
 - [x] **GitHub-flavored markdown (GFM)**: Enabled via the \`remark-gfm\` plugin, supporting features like checkboxes, tables, and strikethroughs.
 
+### Sample Code
+
+Here’s a basic example of a function in JavaScript:
+
+\`\`\`javascript
+function greet(name) {
+  return \`Hello, \${name}!\`;
+}
+
+console.log(greet('Avi')); // Output: Hello, Avi!
+\`\`\`
+
+This code defines a simple function \`greet\` that takes a name as input and returns a greeting message.
+
 | Feature                | Status |
 | ---------------------- | ------ |
 | React                  | ✅     |
 | Express.js             | ✅     |
 | Google Cloud           | ✅     |
 | react-copy-to-clipboard| ✅     |
-
 
 `,
         timestamp: currentTimestamp
