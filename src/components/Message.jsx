@@ -1,3 +1,4 @@
+// src/components/Message.jsx
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { FaUserCircle, FaRobot } from 'react-icons/fa'; // Import FaCog for system messages
@@ -20,15 +21,13 @@ const slideIn = keyframes`
 const MessageContainer = styled.div`
   display: flex;
   align-items: flex-start;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   max-width: ${({ $sender }) => ($sender === 'user' ? '100%' : '80%')};
   flex-direction: ${({ $sender }) => ($sender === 'user' ? 'row-reverse' : 'row')};
   align-self: ${({ $sender }) => ($sender === 'user' ? 'flex-end' : 'flex-start')};
 `;
 
 const Avatar = styled.div`
-  margin-right: ${({ $sender }) => ($sender === 'user' ? '0' : '8px')};
-  margin-left: ${({ $sender }) => ($sender === 'user' ? '8px' : '0')};
   display: flex;
   align-items: center;
 
@@ -54,20 +53,15 @@ const MessageBubble = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   animation: ${slideIn} 0.3s ease-out;
   transition: background 0.3s, color 0.3s;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  white-space: normal;
+  word-wrap: normal; /* Ensure words only wrap at word boundaries */
+  white-space: normal; /* Wrap text but don't break words */
+  max-width: 90%; /* Default max-width for messages on larger screens */
+  width: fit-content; /* Prevent message bubbles from stretching unnecessarily */
+  margin: 10px; /* Ensure no extra margin */
   flex: 1;
-  max-width: 100%;
-  min-width: 0; /* Ensure the bubble can shrink as needed */
-  margin: 0; /* Ensure no extra margin */
-
-  @media (max-width: 768px) {
-    max-width: 80%;
-  }
 
   @media (max-width: 480px) {
-    max-width: 70%;
+    max-width: 60vw;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -95,6 +89,7 @@ const MessageBubble = styled.div`
     border-radius: 3px;
     font-family: 'Source Code Pro', monospace;
     color: inherit;
+    white-space: pre-wrap; /* Ensure code wraps properly */
   }
 
   /* Table styling */
@@ -116,8 +111,6 @@ const MessageBubble = styled.div`
     font-weight: bold;
   }
 `;
-
-
 
 const Timestamp = styled.span`
   display: block;

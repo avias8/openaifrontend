@@ -14,22 +14,21 @@ const InputArea = lazy(() => import('./components/InputArea'));
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px; /* Reduced padding */
+  padding: 20px; /* Adjust if needed */
   background: ${({ theme }) => theme.background};
   border-radius: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   max-width: 1200px;
-  margin: 40px auto;
+  margin: 20px auto; /* Reduced top and bottom margin */
   color: ${({ theme }) => theme.textColor};
   position: relative;
-  height: 100vh; /* Set height to 100% of the viewport height */
+  height: calc(100vh - 20px); /* Use the whole viewport height with minimal margins */
   overflow: hidden; /* Prevent overflow outside the container */
 
   transition: background 0.3s, color 0.3s;
 
   @media (max-width: 600px) {
-    padding: 5px; /* Reduced padding for smaller screens */
-    max-width: 90vw;
+    padding: 10px; /* Reduced padding for smaller screens */
   }
 `;
 
