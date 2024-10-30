@@ -1,12 +1,16 @@
-// src/components/InputArea.jsx
-
 import React from 'react';
 import styled from 'styled-components';
+import { FaPaperPlane } from 'react-icons/fa'; // Importing an icon for the send button
 
 // Styled Components
 const InputContainer = styled.div`
   display: flex;
   gap: 10px;
+  padding: 10px 15px;
+  border-radius: 12px;
+  background: ${({ theme }) => theme.inputContainerBackground}; /* New background color for the input area */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 10px 0; /* Additional spacing for the container */
 `;
 
 const TextArea = styled.textarea.attrs({
@@ -20,7 +24,7 @@ const TextArea = styled.textarea.attrs({
   color: ${({ theme }) => theme.textColor};
   resize: none;
   font-size: 1rem;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: background 0.3s, box-shadow 0.3s, color 0.3s;
 
   &::placeholder {
@@ -30,11 +34,7 @@ const TextArea = styled.textarea.attrs({
 
   &:focus {
     background: ${({ theme }) => theme.inputFocusBackground};
-    box-shadow: inset 0 4px 10px
-      ${({ theme }) =>
-        theme.mode === 'dark'
-          ? 'rgba(0, 0, 0, 0.7)'
-          : 'rgba(0, 0, 0, 0.3)'};
+    box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.15);
     outline: none;
   }
 
@@ -47,17 +47,27 @@ const TextArea = styled.textarea.attrs({
 const SendButton = styled.button.attrs({
   'aria-label': 'Send message',
 })`
-  padding: 15px 25px;
-  border: none;
-  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
   background: ${({ theme }) => theme.sendButtonBackground};
   color: #fff;
-  font-size: 1rem;
+  font-size: 1.3rem;
   cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
-
+  transition: background 0.3s, transform 0.2s, border 0.3s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  
+  /* Adding a subtle border */
+  border: 2px solid transparent; /* Start with a transparent border */
+  
+  /* Change border color on hover */
   &:hover {
     background: ${({ theme }) => theme.sendButtonHoverBackground};
+    border-color: ${({ theme }) => theme.borderHoverColor}; /* Custom border color on hover */
     transform: translateY(-2px);
   }
 
@@ -71,10 +81,13 @@ const SendButton = styled.button.attrs({
   }
 
   @media (max-width: 600px) {
-    padding: 12px 20px;
-    font-size: 0.9rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
   }
 `;
+
+
 
 const InputArea = ({ prompt, setPrompt, handleGenerateText }) => {
   const handleKeyPress = (e) => {
@@ -99,7 +112,9 @@ const InputArea = ({ prompt, setPrompt, handleGenerateText }) => {
         onKeyPress={handleKeyPress} // Handle Enter key press
         rows={2}
       />
-      <SendButton onClick={handleClick}>Send</SendButton>
+      <SendButton onClick={handleClick}>
+        <FaPaperPlane /> {/* Send icon */}
+      </SendButton>
     </InputContainer>
   );
 };

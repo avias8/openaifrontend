@@ -26,9 +26,15 @@ const Container = styled.div`
   overflow: hidden; /* Prevent overflow outside the container */
 
   transition: background 0.3s, color 0.3s;
+  
+  @media (max-width: 800px) {
+
+    margin: 20px 20px;
+
+  }
 
   @media (max-width: 600px) {
-    padding: 10px; /* Reduced padding for smaller screens */
+    margin: 10px 10px;
   }
 `;
 

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 const HeaderContainer = styled.header`
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 `;
 
 const StatusOrb = styled.a`
@@ -24,7 +24,7 @@ const StatusOrb = styled.a`
   margin-right: 10px;
 
   @media (max-width: 600px) {
-    margin-right: 8px;
+    margin-right: 5px;
   }
 `;
 

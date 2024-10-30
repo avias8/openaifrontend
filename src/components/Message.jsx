@@ -55,7 +55,7 @@ const MessageBubble = styled.div`
   transition: background 0.3s, color 0.3s;
   word-wrap: normal; /* Ensure words only wrap at word boundaries */
   white-space: normal; /* Wrap text but don't break words */
-  max-width: 90%; /* Default max-width for messages on larger screens */
+  max-width: 100%; /* Default max-width for messages on larger screens */
   width: fit-content; /* Prevent message bubbles from stretching unnecessarily */
   margin: 10px; /* Ensure no extra margin */
   flex: 1;

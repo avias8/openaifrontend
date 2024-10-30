@@ -17,7 +17,11 @@ export const darkTheme = {
   scrollbarThumb: '#888888',
   scrollbarTrack: '#333333',
   tableBackground: '#1c1c1c', // Darker table background to contrast with text
-  tableBorderColor: '#555555'  // Visible borders in dark theme
+  tableBorderColor: '#555555',  // Visible borders in dark theme
+  inputContainerBackground: '#333333',
+  sendButtonBackground: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+  sendButtonHoverBackground: 'linear-gradient(135deg, #5a67d8 0%, #6b5dba 100%)',
+  borderHoverColor: '#5a67d8', // Custom border color for dark theme
 };
 
 export const lightTheme = {
@@ -37,5 +41,9 @@ export const lightTheme = {
   scrollbarThumb: '#888888',
   scrollbarTrack: '#f0f0f0',
   tableBackground: '#ffffff', // Light table background for contrast
-  tableBorderColor: '#dddddd'  // Light table borders
+  tableBorderColor: '#dddddd',
+  inputContainerBackground: '#f0f0f0',
+  sendButtonBackground: 'linear-gradient(135deg, #34c759 0%, #28a745 100%)',
+  sendButtonHoverBackground: 'linear-gradient(135deg, #28a745 0%, #218838 100%)',
+  borderHoverColor: '#5a67d8', // Custom border color for dark theme
 };
