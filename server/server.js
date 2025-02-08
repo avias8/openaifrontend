@@ -1,6 +1,6 @@
 // Server.js
 // This file sets up an Express server that handles requests to the OpenAI API.
-// It includes middleware for CORS and JSON parsing, and defines endpoints for generating text and for version info.
+// It includes middleware for CORS and JSON parsing, and defines endpoints for generating text, version info, and status.
 
 const express = require('express');
 const cors = require('cors');
@@ -41,12 +41,15 @@ app.post('/openai', async (req, res) => {
   }
 });
 
-// New endpoint to provide version information
 app.get('/version', (req, res) => {
   res.json({
-    version: '1.0.0',
+    version: '1.0.1',
     deployedAt: new Date().toISOString(),
   });
+});
+
+app.get('/status', (req, res) => {
+  res.json({ status: 'online' });
 });
 
 app.listen(PORT, () => {
