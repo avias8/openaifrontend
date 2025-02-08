@@ -24,13 +24,10 @@ const Container = styled.div`
   position: relative;
   height: calc(100vh - 20px); /* Use the whole viewport height with minimal margins */
   overflow: hidden; /* Prevent overflow outside the container */
-
   transition: background 0.3s, color 0.3s;
   
   @media (max-width: 800px) {
-
     margin: 20px 20px;
-
   }
 
   @media (max-width: 600px) {
@@ -45,17 +42,25 @@ const Loading = styled.div`
   color: ${({ theme }) => theme.textColor};
 `;
 
-// Main App Component
+// Styled component for displaying version info
+const VersionInfo = styled.div`
+  margin-top: 10px;
+  text-align: center;
+  font-size: 0.9em;
+  color: ${({ theme }) => theme.textColor};
+`;
+
 const App = () => {
   const [prompt, setPrompt] = useState('');
   const [chatLog, setChatLog] = useState([]);
   const [apiStatus, setApiStatus] = useState('checking');
   const [isLoading, setIsLoading] = useState(false);
   const [theme, setTheme] = useState('dark'); // 'light' or 'dark'
+  const [version, setVersion] = useState(''); // State to hold version info
 
   const chatEndRef = useRef(null); // For auto-scrolling
 
-  // Define checkApiStatus before using it in useEffect
+  // Check API status
   const checkApiStatus = useCallback(async () => {
     try {
       const response = await fetch('https://chatgpt-express-server-186364516466.us-central1.run.app/status');
@@ -69,15 +74,31 @@ const App = () => {
     }
   }, []);
 
-  // Persist theme preference
+  // Fetch version information
+  const fetchVersion = useCallback(async () => {
+    try {
+      const response = await fetch('https://chatgpt-express-server-186364516466.us-central1.run.app/version');
+      if (response.ok) {
+        const data = await response.json();
+        setVersion(data.version);
+      } else {
+        setVersion('unknown');
+      }
+    } catch (error) {
+      console.error('Error fetching version:', error);
+      setVersion('unknown');
+    }
+  }, []);
+
+  // Persist theme preference and check API status on mount
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme && (savedTheme === 'dark' || savedTheme === 'light')) {
       setTheme(savedTheme);
     }
     checkApiStatus();
-
-  }, [checkApiStatus]);
+    fetchVersion();
+  }, [checkApiStatus, fetchVersion]);
 
   useEffect(() => {
     const currentTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -86,7 +107,7 @@ const App = () => {
         id: 1,
         sender: 'system',
         text: `
-  # Welcome to Avi Varma's Inference API!
+# Welcome to Avi Varma's Inference API!
 
 This is a **React-based front end** for interacting with a **Google Cloud-hosted API**. The API provides inference capabilities using **machine learning** models and generates responses for requests you send. Below is a technical overview of the system.
 
@@ -124,8 +145,7 @@ function greet(name) {
 
 console.log(greet('Avi')); // Output: Hello, Avi!
 \`\`\`
-
-`,
+        `,
         timestamp: currentTimestamp
       },
       {
@@ -138,13 +158,12 @@ console.log(greet('Avi')); // Output: Hello, Avi!
     setChatLog(initialMessages);
   }, []);
 
-
-
   useEffect(() => {
     // Scroll to the bottom when chatLog or isLoading changes
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatLog, isLoading]);
 
+  // Updated handleGenerateText to send full conversation context
   const handleGenerateText = useCallback(async () => {
     if (!prompt.trim()) {
       alert('Please enter a prompt');
@@ -152,50 +171,66 @@ console.log(greet('Avi')); // Output: Hello, Avi!
     }
 
     const userMessage = {
+      id: chatLog.length + 1,
       sender: 'user',
       text: prompt,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
 
+    // Append the new user message to the chat log
     setChatLog((prev) => [...prev, userMessage]);
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
 
-    // Add a "Typing..." message
+    // Add a "Typing..." placeholder message
     const typingMessage = {
+      id: chatLog.length + 2,
       sender: 'openai',
       text: 'Typing...',
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
     setChatLog((prev) => [...prev, typingMessage]);
 
+    // Build the conversation context (filter out the "Typing..." message)
+    const conversationContext = [...chatLog, userMessage]
+      .filter((msg) => msg.text !== 'Typing...')
+      .map((msg) => {
+        let role = 'assistant'; // default to assistant
+        if (msg.sender === 'system') role = 'system';
+        else if (msg.sender === 'user') role = 'user';
+        else if (msg.sender === 'openai') role = 'assistant';
+        return { role, content: msg.text };
+      });
+
     try {
       const response = await fetch('https://chatgpt-express-server-186364516466.us-central1.run.app/openai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ messages: conversationContext }),
       });
-
       const data = await response.json();
+
       const openaiMessage = {
+        id: chatLog.length + 3,
         sender: 'openai',
         text: data.generatedText,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
 
-      // Remove the "Typing..." message and add the actual response
+      // Remove the "Typing..." placeholder and add the actual response
       setChatLog((prev) => prev.slice(0, -1).concat(openaiMessage));
     } catch (error) {
       console.error('Error generating text:', error);
       const errorMessage = {
+        id: chatLog.length + 3,
         sender: 'error',
         text: 'Error generating text. Please try again.',
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
       setChatLog((prev) => prev.slice(0, -1).concat(errorMessage));
     } finally {
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     }
-  }, [prompt]);
+  }, [prompt, chatLog]);
 
   const toggleTheme = useCallback(() => {
     setTheme((prev) => {
@@ -207,20 +242,18 @@ console.log(greet('Avi')); // Output: Hello, Avi!
 
   return (
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-      <GlobalStyle /> {/* Apply global styles */}
+      <GlobalStyle />
       <Container>
         <Header apiStatus={apiStatus} toggleTheme={toggleTheme} currentTheme={theme} />
-
-        {/* Wrap lazy-loaded components with Suspense */}
         <Suspense fallback={<Loading>Loading chat...</Loading>}>
-          <ChatLog chatLog={chatLog} theme={theme} chatEndRef={chatEndRef} /> {/* Pass chatEndRef */}
+          <ChatLog chatLog={chatLog} theme={theme} chatEndRef={chatEndRef} />
         </Suspense>
-
         <Suspense fallback={<Loading>Loading input...</Loading>}>
           <InputArea prompt={prompt} setPrompt={setPrompt} handleGenerateText={handleGenerateText} />
         </Suspense>
-
-        <div ref={chatEndRef} /> {/* For auto-scrolling */}
+        <div ref={chatEndRef} />
+        {/* Display version info */}
+        <VersionInfo>Version: {version || 'loading...'}</VersionInfo>
       </Container>
     </ThemeProvider>
   );
