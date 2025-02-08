@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/openaifrontend/static/css/main.e6c13ad2.css",
-    "main.js": "/openaifrontend/static/js/main.6502ba26.js",
+    "main.js": "/openaifrontend/static/js/main.8da48de8.js",
     "static/js/818.5dc77508.chunk.js": "/openaifrontend/static/js/818.5dc77508.chunk.js",
     "static/js/4.58e3bcf9.chunk.js": "/openaifrontend/static/js/4.58e3bcf9.chunk.js",
     "static/js/453.c37d3634.chunk.js": "/openaifrontend/static/js/453.c37d3634.chunk.js",
@@ -9,7 +9,7 @@
     "static/js/283.4f31aed2.chunk.js": "/openaifrontend/static/js/283.4f31aed2.chunk.js",
     "index.html": "/openaifrontend/index.html",
     "main.e6c13ad2.css.map": "/openaifrontend/static/css/main.e6c13ad2.css.map",
-    "main.6502ba26.js.map": "/openaifrontend/static/js/main.6502ba26.js.map",
+    "main.8da48de8.js.map": "/openaifrontend/static/js/main.8da48de8.js.map",
     "818.5dc77508.chunk.js.map": "/openaifrontend/static/js/818.5dc77508.chunk.js.map",
     "4.58e3bcf9.chunk.js.map": "/openaifrontend/static/js/4.58e3bcf9.chunk.js.map",
     "453.c37d3634.chunk.js.map": "/openaifrontend/static/js/453.c37d3634.chunk.js.map",
@@ -18,6 +18,6 @@
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.6502ba26.js"
+    "static/js/main.8da48de8.js"
   ]
 }
