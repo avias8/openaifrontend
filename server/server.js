@@ -22,24 +22,25 @@ app.use(cors());
 // Parse JSON request bodies
 app.use(express.json());
 
+// Server.js
 app.post('/openai', async (req, res) => {
     try {
-        const { prompt } = req.body; // Get the prompt from the request body
-
-        if (!prompt) {
-            return res.status(400).send('Prompt is required');
-        }
-
-        const chatCompletion = await openai.chat.completions.create({
-            messages: [{ role: 'user', content: prompt }], // Use the prompt from the client
-            model: 'gpt-4o-mini', // You can replace this with 'gpt-4o-mini' if needed
-        });
-        res.json({ generatedText: chatCompletion.choices[0].message.content }); // Send back the generated text
+      const { messages } = req.body; // Expect an array of messages [{ role, content }, ...]
+      if (!messages || !messages.length) {
+        return res.status(400).send('Messages are required');
+      }
+  
+      const chatCompletion = await openai.chat.completions.create({
+        messages, 
+        model: 'gpt-4o-mini', // or your desired model
+      });
+  
+      res.json({ generatedText: chatCompletion.choices[0].message.content });
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Something went wrong!');
+      console.error(error);
+      res.status(500).send('Something went wrong!');
     }
-});
+  });
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
